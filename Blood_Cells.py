@@ -12,6 +12,7 @@ import matplotlib
 
 matplotlib.use('agg')
 import matplotlib.pyplot as plt
+from datetime import datetime
 from math import sqrt
 import glob
 import os
@@ -57,6 +58,7 @@ class App:
     def __init__(self, canvas, propotion, video_src, roiwid, graph_path, roihei, type, is_selected, paused=False):
         print("app init entered", paused)
         self.type = type
+        self.idFrame = None
         self.canvas = canvas
         self.filename = video_src.split('\\')[2].split('.')[0]
         # self.filename = video_src.split('/')[-1].split('.')[0]
@@ -403,7 +405,7 @@ class App:
         width_list = []
         for con in contours:
             area = cv2.contourArea(con)
-            #print(cv2.minAreaRect(con))
+            # print(cv2.minAreaRect(con))
             width_list.append(cv2.minAreaRect(con)[1][0])
             self.width = np.average(width_list)
             # print(area)
@@ -655,13 +657,15 @@ class App:
                         # dt_string = now.strftime("%Y%m%d_%H%M%S.jpg")
                         # print("Today's date:", dt_string)
                         # cv2.imwrite(dt_string, print_result)
-                        try:
-                            frame_gui = cv2.resize(print_result, (650, 500))
-                            photo = PIL.ImageTk.PhotoImage(image=PIL.Image.fromarray(frame_gui))
-                            self.canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
+                        #frame_gui = cv2.resize(print_result, (650, 500))
+                        photo = PIL.ImageTk.PhotoImage(image=PIL.Image.fromarray(print_result))
+                        if self.idFrame is None:
+                            self.idFrame = self.canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
+                        else:
+                            self.canvas.itemconfig(self.idFrame, image=photo)
+                            self.canvas.image = photo
                             self.canvas.update()
-                        except Exception as e:
-                            print(e)
+
 
                 self.latency.update(clock() - t0)
                 self.frameNo += 1
@@ -740,8 +744,8 @@ class App:
                     # cv2.imshow('Base Frame', result_img)
                     self.testNo += 1
 
-            ch = cv2.waitKey(1)
-
+            #ch = cv2.waitKey(1)
+            ch = 'a'
             scale = 200
             global escape_pressed
             if ch == 27 or escape_pressed:
@@ -811,9 +815,9 @@ class App:
 
         text = 'Total Count : {:.0f}'.format(totalCount)
         draw_str(blank_image, (point, 110), text)
-        #print(self.count_one_sec_list)
-        #print(maximumSpeed)
-        #print(int(np.average(self.count_one_sec_list)))
+        # print(self.count_one_sec_list)
+        # print(maximumSpeed)
+        # print(int(np.average(self.count_one_sec_list)))
         p = os.path.join(self.path, self.filename + '.jpg')
         # print(p)
         cv2.imwrite(p, blank_image)
@@ -849,6 +853,10 @@ def selFunc(val, canvas):
             global escape_pressed
             escape_pressed = False
 
+            now = datetime.now()
+            dt_string = now.strftime("started on %Y%m%d_%H%M%S")
+            print(dt_string)
+
             # print(file.split('\\'))
             print('Video selected is: {}'.format(file.split('\\')[1]))
             # print('Video selected is: {}'.format(file.split('/')[-1]))
@@ -857,16 +865,25 @@ def selFunc(val, canvas):
                 static_ROI = App(canvas, 0.5, video_src, 50, graph_path, 200, type, is_selected, False).run()
             except Exception as e:
                 print(e)
+
+            now = datetime.now()
+            dt_string = now.strftime("completed on %Y%m%d_%H%M%S")
+            print(dt_string)
+
+        canvas.delete('all')
+        canvas.create_text(300, 200, fill="black", font="Times 24 bold", text="Preview of Video")
+
     # root.destroy()
 
 
 def button_select_videos_folder_click():
-    #print('button_select_videos_folder_click')
+    # print('button_select_videos_folder_click')
     global videos_path
     global var_label_selected_videos_folder
 
     videos_path = filedialog.askdirectory(initialdir=os.getcwd(), title='Select Folder')
     var_label_selected_videos_folder.set("videos folder : " + videos_path)
+
 
 def show_results():
     path = os.path.realpath("Graphs")
@@ -880,7 +897,7 @@ def update():
 def on_escape_press(event):
     global escape_pressed
     escape_pressed = True
-    #print('You pressed %s\n' % (event.char,))
+    # print('You pressed %s\n' % (event.char,))
 
 
 escape_pressed = False
@@ -892,8 +909,7 @@ root.resizable(0, 0)
 # Create a canvas that can fit the above video source size
 canvas = tkinter.Canvas(root, width=650, height=500, bd=1, relief='ridge')
 canvas.pack()
-canvas.create_text(300, 200, fill="black", font="Times 24 bold",
-                   text="Preview of Video")
+canvas.create_text(300, 200, fill="black", font="Times 24 bold", text="Preview of Video")
 
 file_header = PIL.Image.open("header.PNG")
 img_header = PIL.ImageTk.PhotoImage(file_header)
@@ -927,7 +943,7 @@ button_roi_automatic = tk.Button(root, text="Select ROI Automatic", command=lamb
 button_roi_manual = tk.Button(root, text="Select ROI Manually", command=lambda: selFunc(False, canvas), bg='#808080',
                               fg='#FFFFFF', height=5, width=20)
 button_results = tk.Button(root, text="Results", command=show_results, bg='#808080',
-                              fg='#FFFFFF', height=5, width=20)
+                           fg='#FFFFFF', height=5, width=20)
 
 label_header.place(x=120, y=5)
 label_footer.place(x=140, y=600)
