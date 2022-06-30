@@ -920,14 +920,14 @@ img_footer = PIL.ImageTk.PhotoImage(file_footer)
 label_footer = tkinter.Label(root, image=img_footer, height=30, width=700)
 
 file_fish = PIL.Image.open("fish.jpg")
-img_fish = file_fish.resize((100, 100), PIL.Image.ANTIALIAS)
+img_fish = file_fish.resize((200, 200), PIL.Image.ANTIALIAS)
 img_fish = PIL.ImageTk.PhotoImage(img_fish)
-label_fish = tkinter.Label(root, image=img_fish, height=100, width=100)
+label_fish = tkinter.Label(root, image=img_fish, height=200, width=200)
 
 file_opencv = PIL.Image.open("opencv.png")
-img_opencv = file_opencv.resize((100, 100), PIL.Image.ANTIALIAS)
+img_opencv = file_opencv.resize((200, 200), PIL.Image.ANTIALIAS)
 img_opencv = PIL.ImageTk.PhotoImage(img_opencv)
-label_opencv = tkinter.Label(root, image=img_opencv, height=100, width=100)
+label_opencv = tkinter.Label(root, image=img_opencv, height=200, width=200)
 
 var_label_selected_videos_folder = tkinter.StringVar()
 label_selected_videos_folder = tkinter.Label(root, textvariable=var_label_selected_videos_folder, width=100)
@@ -937,23 +937,23 @@ tkinter.Label(root, text="Press Escape to Process Next Video", width=100).place(
 
 button_select_videos_folder = tkinter.Button(root, text="Select Videos Folder",
                                              command=button_select_videos_folder_click, bg='#808080', fg='#FFFFFF',
-                                             height=5, width=20)
+                                             height=5, width=15)
 button_roi_automatic = tk.Button(root, text="Select ROI Automatic", command=lambda: selFunc(True, canvas), bg='#808080',
-                                 fg='#FFFFFF', height=5, width=20)
+                                 fg='#FFFFFF', height=5, width=15)
 button_roi_manual = tk.Button(root, text="Select ROI Manually", command=lambda: selFunc(False, canvas), bg='#808080',
-                              fg='#FFFFFF', height=5, width=20)
+                              fg='#FFFFFF', height=5, width=15)
 button_results = tk.Button(root, text="Results", command=show_results, bg='#808080',
-                           fg='#FFFFFF', height=5, width=20)
+                           fg='#FFFFFF', height=5, width=15)
 
 label_header.place(x=120, y=5)
 label_footer.place(x=140, y=600)
-label_fish.place(x=30, y=50)
-label_opencv.place(x=30, y=200)
-canvas.place(x=150, y=50)
-button_select_videos_folder.place(x=820, y=50)
-button_roi_automatic.place(x=820, y=150)
-button_roi_manual.place(x=820, y=250)
-button_results.place(x=820, y=350)
+label_fish.place(x=10, y=50)
+label_opencv.place(x=10, y=300)
+canvas.place(x=220, y=50)
+button_select_videos_folder.place(x=880, y=50)
+button_roi_automatic.place(x=880, y=150)
+button_roi_manual.place(x=880, y=250)
+button_results.place(x=880, y=350)
 label_selected_videos_folder.place(x=100, y=560)
 
 # img = PIL.ImageTk.PhotoImage(PIL.Image.open("opencv.png"))
