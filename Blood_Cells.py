@@ -55,8 +55,9 @@ class App:
 
     # ----------------------------------!>
 
-    def __init__(self, canvas, propotion, video_src, roiwid, graph_path, roihei, type, is_selected, paused=False):
+    def __init__(self, root, canvas, propotion, video_src, roiwid, graph_path, roihei, type, is_selected, paused=False):
         print("app init entered", paused)
+        self.root = root
         self.type = type
         self.idFrame = None
         self.canvas = canvas
@@ -67,6 +68,7 @@ class App:
 
         self.path = graph_path
         self.cap = video.create_capture(video_src)
+        self.fps = self.cap.get(cv2.CAP_PROP_FPS)
         self.frameLength = int(self.cap.get(cv2.CAP_PROP_FRAME_COUNT))
         _, self.base_frame = self.cap.read()
         cv2.namedWindow('Select ROI', cv2.WINDOW_NORMAL)
@@ -502,6 +504,7 @@ class App:
         start = time.time()
         self.count_one_sec = 0
         self.count_one_sec_calculation = 0
+
         while True:
             t = clock()
             self.frame_interval.update(t - self.last_frame_time)
@@ -657,15 +660,14 @@ class App:
                         # dt_string = now.strftime("%Y%m%d_%H%M%S.jpg")
                         # print("Today's date:", dt_string)
                         # cv2.imwrite(dt_string, print_result)
-                        #frame_gui = cv2.resize(print_result, (650, 500))
+                        # frame_gui = cv2.resize(print_result, (650, 500))
                         photo = PIL.ImageTk.PhotoImage(image=PIL.Image.fromarray(print_result))
                         if self.idFrame is None:
                             self.idFrame = self.canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
                         else:
                             self.canvas.itemconfig(self.idFrame, image=photo)
-                            self.canvas.image = photo
+                            #self.canvas.image = photo
                             self.canvas.update()
-
 
                 self.latency.update(clock() - t0)
                 self.frameNo += 1
@@ -832,7 +834,7 @@ class App:
         #     cv2.destroyAllWindows()
 
 
-def selFunc(val, canvas):
+def selFunc(val, canvas, root):
     global is_selected
     is_selected = val
 
@@ -862,7 +864,7 @@ def selFunc(val, canvas):
             # print('Video selected is: {}'.format(file.split('/')[-1]))
             video_src = file
             try:
-                static_ROI = App(canvas, 0.5, video_src, 50, graph_path, 200, type, is_selected, False).run()
+                static_ROI = App(root, canvas, 0.5, video_src, 50, graph_path, 200, type, is_selected, False).run()
             except Exception as e:
                 print(e)
 
@@ -937,11 +939,16 @@ tkinter.Label(root, text="Press Escape to Process Next Video", width=100).place(
 
 button_select_videos_folder = tkinter.Button(root, text="Select Videos Folder",
                                              command=button_select_videos_folder_click, bg='#808080', fg='#FFFFFF',
+                                             wraplength=60, justify="center",
                                              height=5, width=15)
-button_roi_automatic = tk.Button(root, text="Select ROI Automatic", command=lambda: selFunc(True, canvas), bg='#808080',
-                                 fg='#FFFFFF', height=5, width=15)
-button_roi_manual = tk.Button(root, text="Select ROI Manually", command=lambda: selFunc(False, canvas), bg='#808080',
-                              fg='#FFFFFF', height=5, width=15)
+button_roi_automatic = tk.Button(root, text="Select ROI Automatic", command=lambda: selFunc(True, canvas, root),
+                                 bg='#808080',
+                                 fg='#FFFFFF', wraplength=60, justify="center",
+                                 height=5, width=15)
+button_roi_manual = tk.Button(root, text="Select ROI Manually", command=lambda: selFunc(False, canvas, root),
+                              bg='#808080',
+                              fg='#FFFFFF', wraplength=60, justify="center",
+                              height=5, width=15)
 button_results = tk.Button(root, text="Results", command=show_results, bg='#808080',
                            fg='#FFFFFF', height=5, width=15)
 
@@ -955,9 +962,6 @@ button_roi_automatic.place(x=880, y=150)
 button_roi_manual.place(x=880, y=250)
 button_results.place(x=880, y=350)
 label_selected_videos_folder.place(x=100, y=560)
-
-# img = PIL.ImageTk.PhotoImage(PIL.Image.open("opencv.png"))
-# canvas.create_image(0, 0, anchor=tkinter.NW, image=img)
 
 delay = 15
 update()
