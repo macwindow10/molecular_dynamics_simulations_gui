@@ -666,7 +666,7 @@ class App:
                             self.idFrame = self.canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
                         else:
                             self.canvas.itemconfig(self.idFrame, image=photo)
-                            #self.canvas.image = photo
+                            # self.canvas.image = photo
                             self.canvas.update()
 
                 self.latency.update(clock() - t0)
@@ -746,7 +746,7 @@ class App:
                     # cv2.imshow('Base Frame', result_img)
                     self.testNo += 1
 
-            #ch = cv2.waitKey(1)
+            # ch = cv2.waitKey(1)
             ch = 'a'
             scale = 200
             global escape_pressed
