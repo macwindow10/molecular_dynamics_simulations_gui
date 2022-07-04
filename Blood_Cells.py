@@ -690,7 +690,7 @@ class App:
                         cv2.rectangle(frame, (x0, y0), (x1, y1), (0, 255, 0), 2)
                         cv2.putText(frame, "Press SPACE key for next step!", (20, 40), cv2.FONT_HERSHEY_TRIPLEX, 0.7,
                                     (0, 0, 255), 1);
-                        print('rt')
+                        #print('rt')
                     else:
                         cv2.putText(frame, "Select ROI By MouseDroping", (20, 40), cv2.FONT_HERSHEY_TRIPLEX, 0.7,
                                     (0, 0, 255), 1);
@@ -934,7 +934,7 @@ var_label_selected_videos_folder = tkinter.StringVar()
 label_selected_videos_folder = tkinter.Label(root, textvariable=var_label_selected_videos_folder, width=100)
 var_label_selected_videos_folder.set("videos folder : ")
 
-tkinter.Label(root, text="Press Escape to Process Next Video", width=100).place(x=120, y=580)
+tkinter.Label(root, text="Press Escape to Process Next Video", width=100).place(x=140, y=580)
 
 button_select_videos_folder = tkinter.Button(root, text="Select Videos Folder",
                                              command=button_select_videos_folder_click, bg='#808080', fg='#FFFFFF',
@@ -950,8 +950,8 @@ button_roi_manual = tk.Button(root, text="Select ROI Manually", command=lambda: 
 button_results = tk.Button(root, text="Results", command=show_results, bg='#808080',
                            fg='#FFFFFF', height=5, width=20)
 
-label_header.place(x=120, y=5)
-label_footer.place(x=140, y=600)
+label_header.place(x=165, y=5)
+label_footer.place(x=165, y=600)
 label_fish.place(x=10, y=50)
 label_opencv.place(x=10, y=300)
 canvas.place(x=220, y=50)
@@ -959,7 +959,7 @@ button_select_videos_folder.place(x=870, y=50)
 button_roi_automatic.place(x=870, y=150)
 button_roi_manual.place(x=870, y=250)
 button_results.place(x=870, y=350)
-label_selected_videos_folder.place(x=100, y=560)
+label_selected_videos_folder.place(x=140, y=560)
 
 delay = 15
 update()
