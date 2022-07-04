@@ -73,8 +73,7 @@ class App:
         _, self.base_frame = self.cap.read()
         cv2.namedWindow('Select ROI', cv2.WINDOW_NORMAL)
         cv2.imshow('Select ROI', self.base_frame)
-        # self.rect_sel = RectSelector('Select ROI', self.onrect, roiwid, roihei)
-        self.rect_sel = RectSelector('Select ROI', self.onrect)
+        self.rect_sel = RectSelector('Select ROI', self.onrect, roiwid, roihei)
 
         self.croped_pos = (0, 0, self.base_frame.shape[1], self.base_frame.shape[0])
         self.testNo = 0
@@ -905,11 +904,11 @@ def on_escape_press(event):
 escape_pressed = False
 root = tk.Tk()
 root.wm_title("Process Videos")
-root.geometry("1000x650+100+10")
+root.geometry("1030x650+100+10")
 root.resizable(0, 0)
 
 # Create a canvas that can fit the above video source size
-canvas = tkinter.Canvas(root, width=650, height=500, bd=1, relief='ridge')
+canvas = tkinter.Canvas(root, width=638, height=500, bd=1, relief='ridge')
 canvas.pack()
 canvas.create_text(300, 200, fill="black", font="Times 24 bold", text="Preview of Video")
 
@@ -939,28 +938,27 @@ tkinter.Label(root, text="Press Escape to Process Next Video", width=100).place(
 
 button_select_videos_folder = tkinter.Button(root, text="Select Videos Folder",
                                              command=button_select_videos_folder_click, bg='#808080', fg='#FFFFFF',
-                                             wraplength=60, justify="center",
-                                             height=5, width=15)
+                                             height=5, width=20)
 button_roi_automatic = tk.Button(root, text="Select ROI Automatic", command=lambda: selFunc(True, canvas, root),
                                  bg='#808080',
-                                 fg='#FFFFFF', wraplength=60, justify="center",
-                                 height=5, width=15)
+                                 fg='#FFFFFF',
+                                 height=5, width=20)
 button_roi_manual = tk.Button(root, text="Select ROI Manually", command=lambda: selFunc(False, canvas, root),
                               bg='#808080',
-                              fg='#FFFFFF', wraplength=60, justify="center",
-                              height=5, width=15)
+                              fg='#FFFFFF',
+                              height=5, width=20)
 button_results = tk.Button(root, text="Results", command=show_results, bg='#808080',
-                           fg='#FFFFFF', height=5, width=15)
+                           fg='#FFFFFF', height=5, width=20)
 
 label_header.place(x=120, y=5)
 label_footer.place(x=140, y=600)
 label_fish.place(x=10, y=50)
 label_opencv.place(x=10, y=300)
 canvas.place(x=220, y=50)
-button_select_videos_folder.place(x=880, y=50)
-button_roi_automatic.place(x=880, y=150)
-button_roi_manual.place(x=880, y=250)
-button_results.place(x=880, y=350)
+button_select_videos_folder.place(x=870, y=50)
+button_roi_automatic.place(x=870, y=150)
+button_roi_manual.place(x=870, y=250)
+button_results.place(x=870, y=350)
 label_selected_videos_folder.place(x=100, y=560)
 
 delay = 15
