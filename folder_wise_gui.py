@@ -61,6 +61,7 @@ class App:
         self.root = root
         self.type = type
         self.canvas = canvas
+        self.idFrame = None
         # self.filename = video_src.
         # split('\\')[2].split('.')[0]
         # print(video_src.split('\\')[2].split('.'))
@@ -597,7 +598,23 @@ class App:
                             if self.IsExistPoint(point, self.croped_pos):
                                 result = [point[0][::-1], point[1][::-1]]
                                 cv2.arrowedLine(print_result, result[0], result[1], (0, 0, 255), 1, cv2.LINE_8, 0, 0.4)
-                        cv2.imshow('ROI Detect', print_result)
+                        #cv2.imshow('ROI Detect', print_result)
+
+                        # ASIF
+                        # now = datetime.now()
+                        # dt_string = now.strftime("%Y%m%d_%H%M%S.jpg")
+                        # print("Today's date:", dt_string)
+                        # cv2.imwrite(dt_string, print_result)
+                        # frame_gui = cv2.resize(print_result, (650, 500))
+                        photo = PIL.ImageTk.PhotoImage(image=PIL.Image.fromarray(print_result))
+                        if self.idFrame is None:
+                            self.idFrame = self.canvas.create_image(0, 0, image=photo, anchor=tkinter.NW)
+                        else:
+                            self.canvas.itemconfig(self.idFrame, image=photo)
+                            # self.canvas.image = photo
+                            self.canvas.update()
+
+
                 self.latency.update(clock() - t0)
                 self.frameNo += 1
             if len(self.pending) < self.threadn:
@@ -629,12 +646,12 @@ class App:
                         self.init_value()
                         self.init_thread()
                         self.is_croped = True
-                        cv2.namedWindow('ROI Detect', cv2.WINDOW_NORMAL)
+                        #cv2.namedWindow('ROI Detect', cv2.WINDOW_NORMAL)
                         cv2.namedWindow('Base Frame', cv2.WINDOW_NORMAL)
                         width = int(np.shape(self.base_frame)[1] * self.rePropotion)
                         height = int(np.shape(self.base_frame)[0] * self.rePropotion)
                         cv2.resizeWindow('Base Frame', width, height)
-                        cv2.resizeWindow('ROI Detect', width, height)
+                        #cv2.resizeWindow('ROI Detect', width, height)
 
                     # elif self.is_selected:
                     # cv2.destroyWindow('Select ROI')
@@ -746,7 +763,7 @@ class App:
         p = os.path.join(self.path, self.filename + '.jpg')
         print(p)
         cv2.imwrite(p, blank_image)
-        cv2.destroyWindow('ROI Detect')
+        #cv2.destroyWindow('ROI Detect')
         cv2.imshow('Base Frame', blank_image)
         cv2.resizeWindow('Base Frame', shape[1], shape[0])
 
