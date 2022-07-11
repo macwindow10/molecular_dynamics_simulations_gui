@@ -646,12 +646,12 @@ class App:
                         self.init_value()
                         self.init_thread()
                         self.is_croped = True
-                        #cv2.namedWindow('ROI Detect', cv2.WINDOW_NORMAL)
-                        cv2.namedWindow('Base Frame', cv2.WINDOW_NORMAL)
+                        # cv2.namedWindow('ROI Detect', cv2.WINDOW_NORMAL)
+                        # cv2.namedWindow('Base Frame', cv2.WINDOW_NORMAL)
                         width = int(np.shape(self.base_frame)[1] * self.rePropotion)
                         height = int(np.shape(self.base_frame)[0] * self.rePropotion)
-                        cv2.resizeWindow('Base Frame', width, height)
-                        #cv2.resizeWindow('ROI Detect', width, height)
+                        # cv2.resizeWindow('Base Frame', width, height)
+                        # cv2.resizeWindow('ROI Detect', width, height)
 
                     # elif self.is_selected:
                     # cv2.destroyWindow('Select ROI')
@@ -694,14 +694,15 @@ class App:
                     # -------------------------------------------------------------------------!>
                     result_img = vis
                     shape = np.shape(result_img);
-                    cv2.resizeWindow('Base Frame', shape[1], shape[0])
-                    cv2.imshow('Base Frame', result_img)
+                    # cv2.resizeWindow('Base Frame', shape[1], shape[0])
+                    # cv2.imshow('Base Frame', result_img)
                     self.testNo += 1
 
             ch = cv2.waitKey(1)
 
             scale = 200
-            if ch == 27:
+            global escape_pressed
+            if ch == 27 or escape_pressed:
                 self.pressESC = True
                 break
             else:
@@ -764,8 +765,8 @@ class App:
         print(p)
         cv2.imwrite(p, blank_image)
         #cv2.destroyWindow('ROI Detect')
-        cv2.imshow('Base Frame', blank_image)
-        cv2.resizeWindow('Base Frame', shape[1], shape[0])
+        # cv2.imshow('Base Frame', blank_image)
+        # cv2.resizeWindow('Base Frame', shape[1], shape[0])
 
         # ch = cv2.waitKey(0)
         plt.close('all')
