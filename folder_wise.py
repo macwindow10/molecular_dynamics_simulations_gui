@@ -763,5 +763,10 @@ if __name__ == '__main__':
             # print('Video selected is: {}'.format(file.split('\\')[1]))
             print('Video selected is: {}'.format(file.split('/')[1]))
             video_src = file
-            
+            now = datetime.now()
+            dt_string = now.strftime("started on %Y%m%d_%H%M%S")
+            print(dt_string)
             static_ROI = App(0.5,video_src, 50, graph_path,200, type, is_selected,False).run()
+            now = datetime.now()
+            dt_string = now.strftime("completed on %Y%m%d_%H%M%S")
+            print(dt_string)

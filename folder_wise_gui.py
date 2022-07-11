@@ -698,7 +698,7 @@ class App:
                     # cv2.imshow('Base Frame', result_img)
                     self.testNo += 1
 
-            ch = cv2.waitKey(1)
+            #ch = cv2.waitKey(1)
 
             scale = 200
             global escape_pressed
@@ -763,8 +763,9 @@ class App:
         draw_str(blank_image, (point, 120), text)
         p = os.path.join(self.path, self.filename + '.jpg')
         print(p)
+        os.makedirs(os.path.join(p))
         cv2.imwrite(p, blank_image)
-        #cv2.destroyWindow('ROI Detect')
+        # cv2.destroyWindow('ROI Detect')
         # cv2.imshow('Base Frame', blank_image)
         # cv2.resizeWindow('Base Frame', shape[1], shape[0])
 
