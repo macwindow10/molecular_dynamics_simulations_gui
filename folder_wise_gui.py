@@ -74,6 +74,7 @@ class App:
         cv2.namedWindow('Select ROI', cv2.WINDOW_NORMAL)
         cv2.imshow('Select ROI', self.base_frame)
 
+        # self.rect_sel = RectSelector('Select ROI', self.onrect, roiwid, roihei)
         self.rect_sel = RectSelector('Select ROI', self.onrect, roiwid, roihei)
         self.croped_pos = (0, 0, self.base_frame.shape[1], self.base_frame.shape[0])
         self.testNo = 0
@@ -850,7 +851,7 @@ def on_escape_press(event):
 escape_pressed = False
 root = tk.Tk()
 root.wm_title("Process Videos")
-root.geometry("1030x650+100+10")
+root.geometry("1050x650+100+10")
 root.resizable(0, 0)
 
 # Create a canvas that can fit the above video source size

@@ -1,1 +1,1 @@
-python.exe Blood_Cells.py %*
+python.exe folder_wise_gui.py %*
